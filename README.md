@@ -1,5 +1,5 @@
 # Employee-management-system
-A fullstack project for an employee management system.
+A fullstack project for an employee management system using React JS, Springboot, MySQL Work bench and Cypress.
 
 ## User story
 
