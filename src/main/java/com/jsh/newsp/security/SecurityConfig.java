@@ -2,6 +2,7 @@ package com.jsh.newsp.security;
 
 import com.jsh.newsp.filter.AuthenticationFilter;
 import com.jsh.newsp.filter.ExceptionHandlerFilter;
+import com.jsh.newsp.filter.JWTAuthorizationFilter;
 import com.jsh.newsp.manager.CustomAuthenticationManager;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
                 .addFilter(authenticationFilter)
+                .addFilterAfter(new JWTAuthorizationFilter(), AuthenticationFilter.class)
                 .httpBasic(withDefaults()).sessionManagement(sess->   sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }

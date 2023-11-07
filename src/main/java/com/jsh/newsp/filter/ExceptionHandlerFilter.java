@@ -1,5 +1,6 @@
 package com.jsh.newsp.filter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.jsh.newsp.exception.UserNotFoundException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,6 +25,13 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
             //WHen trying to authenticate a user that doesn't exist
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             response.getWriter().write("BAD REQUEST");
+            response.getWriter().flush();
+
+        }
+        catch (JWTVerificationException e){
+            // WHen it is a jwt verification
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().write("JWT not valid");
             response.getWriter().flush();
 
         }
