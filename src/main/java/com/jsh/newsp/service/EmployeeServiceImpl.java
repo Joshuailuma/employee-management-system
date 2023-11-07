@@ -1,6 +1,8 @@
 package com.jsh.newsp.service;
 
 import com.jsh.newsp.entity.Employee;
+import com.jsh.newsp.entity.User;
+import com.jsh.newsp.exception.EmployeeNotFoundException;
 import com.jsh.newsp.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,11 +15,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee getEmployee(Long id) {
-        Optional<Employee> student = employeeRepository.findById(id);
-
-        //Optional<Employee> student = employeeRepository.findById(id);
-        //return unwrapStudent(student, id);
-        return student.get();
+        Optional<Employee> employee = employeeRepository.findById(id);
+        return unwrapEmployee(employee, id);
     }
 
     @Override
@@ -28,5 +27,10 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public List<Employee> getEmployees() {
         return (List<Employee>)employeeRepository.findAll();
+    }
+
+    static Employee unwrapEmployee(Optional<Employee> entity, Long id) {
+        if (entity.isPresent()) return entity.get();
+        else throw new EmployeeNotFoundException(id, User.class);
     }
 }
